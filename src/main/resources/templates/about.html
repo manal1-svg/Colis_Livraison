@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>À propos - Amma Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .floating-animation {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .about-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 20px 20px 60px #d1d1d1, -20px -20px 60px #ffffff;
+        }
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 25px 25px 75px #c5c5c5, -25px -25px 75px #ffffff;
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 2.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.25rem;
+            width: 1rem;
+            height: 1rem;
+            border-radius: 9999px;
+            background-color: #2563eb;
+            border: 4px solid #bfdbfe;
+            z-index: 1;
+        }
+        .timeline-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 0.45rem;
+            top: 1.5rem;
+            height: calc(100% - 1rem);
+            width: 2px;
+            background-color: #d1d5db;
+            z-index: 0;
+        }
+        .team-card {
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .team-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+        .section-heading::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<!-- Navbar -->
+<nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-2xl font-bold text-gray-800">
+            <i class="fas fa-shipping-fast text-blue-600 mr-2"></i>
+            Amma<span class="text-blue-600">Express</span>
+        </a>
+        <div class="hidden md:flex space-x-8">
+            <a href="/" class="text-gray-700 hover:text-blue-600 transition duration-300">Accueil</a>
+            <a href="/nouveau" class="text-gray-700 hover:text-blue-600 transition duration-300">Nouveau Colis</a>
+            <a href="/about" class="text-blue-600 font-semibold border-b-2 border-blue-600">À propos</a>
+            <a href="/contact" class="text-gray-700 hover:text-blue-600 transition duration-300">Contact</a>
+        </div>
+        <div class="md:hidden">
+            <button id="mobile-menu-btn" class="text-gray-700">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-bg text-white pt-24 pb-20 overflow-hidden relative">
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="floating-animation mb-8">
+                <i class="fas fa-building text-6xl text-white opacity-20"></i>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Notre <span class="text-yellow-300">Histoire</span>
+            </h1>
+            <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+                Depuis 2010, Amma Express révolutionne la logistique au Maroc avec des solutions innovantes et un service client exceptionnel.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">14+</div>
+                    <div class="text-sm">Ans d'expérience</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">75+</div>
+                    <div class="text-sm">Agences</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">1M+</div>
+                    <div class="text-sm">Colis livrés</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Animated Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white opacity-10 rounded-full floating-animation"></div>
+        <div class="absolute top-32 right-20 w-16 h-16 bg-yellow-300 opacity-20 rounded-full floating-animation" style="animation-delay: -1s;"></div>
+        <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-white opacity-15 rounded-full floating-animation" style="animation-delay: -2s;"></div>
+    </div>
+</div>
+
+<!-- Mission Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4 section-heading">Notre <span class="gradient-text">Mission</span></h2>
+            <p class="text-xl text-gray-600 leading-relaxed">
+                Notre engagement est de <strong>transformer la logistique</strong> en Afrique, en connectant les personnes et les entreprises à travers un réseau de livraison rapide, sécurisé et innovant,
+                tout en plaçant l'expérience client au cœur de nos priorités.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div class="about-card bg-white rounded-2xl p-10 text-center">
+                <div class="bg-blue-100 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 shadow-md">
+                    <i class="fas fa-bolt text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Efficacité & Rapidité</h3>
+                <p class="text-gray-600 text-md">
+                    Nous garantissons des livraisons express en 24h dans les grandes villes du Maroc, assurant que vos colis arrivent à destination sans délai.
+                </p>
+            </div>
+
+            <div class="about-card bg-white rounded-2xl p-10 text-center">
+                <div class="bg-blue-100 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 shadow-md">
+                    <i class="fas fa-shield-alt text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Sécurité & Fiabilité</h3>
+                <p class="text-gray-600 text-md">
+                    Chaque colis est traité avec le plus grand soin, avec un système de suivi en temps réel et des protocoles de sécurité stricts.
+                </p>
+            </div>
+
+            <div class="about-card bg-white rounded-2xl p-10 text-center">
+                <div class="bg-blue-100 w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-6 shadow-md">
+                    <i class="fas fa-microchip text-blue-600 text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-semibold mb-3 text-gray-800">Innovation Technologique</h3>
+                <p class="text-gray-600 text-md">
+                    Nous intégrons les dernières technologies pour optimiser vos envois et vous offrir une expérience client fluide et transparente.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Timeline Section -->
+<section class="py-20 bg-gray-50">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4 section-heading">Notre <span class="gradient-text">Parcours</span></h2>
+            <p class="text-xl text-gray-600 leading-relaxed">
+                De nos humbles débuts à notre position de leader, chaque étape a été guidée par l'innovation et la passion de servir.
+            </p>
+        </div>
+
+        <div class="max-w-3xl mx-auto relative">
+            <div class="space-y-12">
+                <div class="timeline-item flex flex-col md:flex-row items-start md:space-x-8">
+                    <div class="flex-shrink-0 md:w-1/4 text-gray-500 font-semibold text-lg md:text-right pt-2">2010</div>
+                    <div class="about-card bg-white p-8 rounded-xl flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-gray-800">La Naissance d'une Vision</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Amma Express voit le jour à Casablanca avec une agence unique et une ambition audacieuse :
+                            <strong>révolutionner le secteur de la livraison</strong> au Maroc par un service client inégalé.
+                        </p>
+                        <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                             alt="Première agence Amana Express"
+                             class="rounded-lg w-full h-56 object-cover shadow-md">
+                    </div>
+                </div>
+
+                <div class="timeline-item flex flex-col md:flex-row items-start md:space-x-8">
+                    <div class="flex-shrink-0 md:w-1/4 text-gray-500 font-semibold text-lg md:text-right pt-2">2014</div>
+                    <div class="about-card bg-white p-8 rounded-xl flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-gray-800">Pionniers du Suivi en Ligne</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Lancement de notre plateforme de <strong>suivi de colis en temps réel</strong>, une première au Maroc, offrant à nos clients
+                            une transparence et une tranquillité d'esprit totales.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="timeline-item flex flex-col md:flex-row items-start md:space-x-8">
+                    <div class="flex-shrink-0 md:w-1/4 text-gray-500 font-semibold text-lg md:text-right pt-2">2018</div>
+                    <div class="about-card bg-white p-8 rounded-xl flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-gray-800">Expansion Nationale</h3>
+                        <p class="text-gray-600 leading-relaxed mb-4">
+                            Nous franchissons le cap de la <strong>50ème agence</strong>, consolidant notre réseau et étendant notre présence
+                            dans toutes les régions clés du Royaume.
+                        </p>
+                        <img src="https://images.unsplash.com/photo-1581093450021-4a7360e9a7e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                             alt="Réseau national"
+                             class="rounded-lg w-full h-56 object-cover shadow-md">
+                    </div>
+                </div>
+
+                <div class="timeline-item flex flex-col md:flex-row items-start md:space-x-8">
+                    <div class="flex-shrink-0 md:w-1/4 text-gray-500 font-semibold text-lg md:text-right pt-2">2022</div>
+                    <div class="about-card bg-white p-8 rounded-xl flex-grow">
+                        <h3 class="text-2xl font-semibold mb-3 text-gray-800">Livraison Express 24h</h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Introduction de notre service de <strong>livraison express garantie en 24 heures</strong>, un service qui établit
+                            une nouvelle norme de rapidité et d'efficacité sur le marché marocain.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-20 bg-gradient-to-br from-blue-700 to-blue-900 text-white shadow-inner">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-bold mb-4">Amma Express <span class="text-blue-200">en Chiffres Clés</span></h2>
+            <p class="text-lg text-blue-100 max-w-2xl mx-auto">
+                Notre engagement se reflète dans notre croissance et la confiance de nos clients.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center">
+            <div class="flex flex-col items-center justify-center">
+                <div class="text-6xl font-extrabold mb-3 text-blue-100">14+</div>
+                <div class="text-blue-200 text-lg font-medium">Ans d'Expérience</div>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                <div class="text-6xl font-extrabold mb-3 text-blue-100">75+</div>
+                <div class="text-blue-200 text-lg font-medium">Agences Opérationnelles</div>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                <div class="text-6xl font-extrabold mb-3 text-blue-100">1M+</div>
+                <div class="text-blue-200 text-lg font-medium">Colis Livrés</div>
+            </div>
+            <div class="flex flex-col items-center justify-center">
+                <div class="text-6xl font-extrabold mb-3 text-blue-100">98%</div>
+                <div class="text-blue-200 text-lg font-medium">Satisfaction Client</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto text-center mb-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4 section-heading">Rencontrez notre <span class="gradient-text">Équipe</span></h2>
+            <p class="text-xl text-gray-600 leading-relaxed">
+                Derrière chaque livraison réussie, une équipe de professionnels passionnés et dévoués.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div class="team-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                     alt="Amyra Mouhib, Directrice Générale"
+                     class="w-full h-72 object-cover object-top filter grayscale hover:grayscale-0 transition duration-500">
+                <div class="p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-1 text-gray-800">Amyra Mouhib</h3>
+                    <p class="text-blue-600 text-lg font-medium mb-4">Directrice Générale</p>
+                    <p class="text-gray-600 text-base leading-relaxed">
+                        Visionnaire et stratège, Amyra guide Amana Express vers l'excellence avec plus de 15 ans d'expérience.
+                    </p>
+                    <div class="flex justify-center space-x-4 mt-4">
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                     alt="Manal Ejjebli, Directrice Clientèle"
+                     class="w-full h-72 object-cover object-top filter grayscale hover:grayscale-0 transition duration-500">
+                <div class="p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-1 text-gray-800">Manal Ejjebli</h3>
+                    <p class="text-blue-600 text-lg font-medium mb-4">Directrice Clientèle</p>
+                    <p class="text-gray-600 text-base leading-relaxed">
+                        Avec une empathie unique, Manal assure que chaque interaction client dépasse les attentes.
+                    </p>
+                    <div class="flex justify-center space-x-4 mt-4">
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-card bg-white rounded-2xl shadow-xl overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+                     alt="Youssef Amrani, Responsable des Opérations"
+                     class="w-full h-72 object-cover object-top filter grayscale hover:grayscale-0 transition duration-500">
+                <div class="p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-1 text-gray-800">Youssef Amrani</h3>
+                    <p class="text-blue-600 text-lg font-medium mb-4">Responsable des Opérations</p>
+                    <p class="text-gray-600 text-base leading-relaxed">
+                        L'architecte de notre efficacité, Youssef optimise chaque processus logistique avec précision.
+                    </p>
+                    <div class="flex justify-center space-x-4 mt-4">
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="text-blue-500 hover:text-blue-700"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-20 bg-blue-50">
+    <div class="container mx-auto px-6 text-center">
+        <h2 class="text-4xl font-bold text-gray-800 mb-6">Prêt à Expédier avec Confiance ?</h2>
+        <p class="text-xl text-gray-700 max-w-3xl mx-auto mb-10">
+            Rejoignez la communauté de milliers d'entreprises et de particuliers qui font confiance à Amana Express
+            pour des livraisons rapides, sécurisées et sans souci à travers le Maroc.
+        </p>
+        <a href="/nouveau" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-extrabold py-4 px-12 rounded-full text-lg shadow-lg transform hover:scale-105 transition duration-300 ease-in-out">
+            Créer un Envoi Maintenant
+        </a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-shipping-fast text-3xl text-blue-400"></i>
+                    <span class="text-2xl font-bold">Amana<span class="text-blue-400">Express</span></span>
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Leader dans la livraison de colis au Maroc, nous nous engageons à offrir un service rapide et fiable.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="/nouveau" class="text-gray-400 hover:text-white transition">Envoi de colis</a></li>
+                    <li><a href="/suivi" class="text-gray-400 hover:text-white transition">Suivi en ligne</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Livraison express</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Points relais</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Entreprise</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about" class="text-gray-400 hover:text-white transition">À propos</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Carrières</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Presse</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-phone mr-2"></i>
+                        <span class="text-gray-400">0522 98 76 54</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span class="text-gray-400">contact@amanaexpress.ma</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mr-2 mt-1"></i>
+                        <span class="text-gray-400">123 Avenue Hassan II, Casablanca</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                © <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}">2024</span> AmmaExpress. Tous droits réservés.
+            </p>
+            <p class="text-gray-400 text-sm">
+                Développé avec ❤️ pour un service d'excellence
+            </p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Animation au scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('nav');
+        if (window.scrollY > 100) {
+            navbar.classList.add('shadow-xl');
+        } else {
+            navbar.classList.remove('shadow-xl');
+        }
+    });
+
+    // Menu mobile
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        // Implémentation du menu mobile
+        console.log('Menu mobile cliqué');
+    });
+
+    // Animation des cartes au scroll
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-fade-in');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.about-card, .team-card, .timeline-item').forEach(card => {
+        observer.observe(card);
+    });
+</script>
+</body>
+</html>

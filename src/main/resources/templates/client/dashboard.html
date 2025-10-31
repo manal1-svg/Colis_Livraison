@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tableau de Bord Client - Amana Express</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c63ff;
+            --secondary: #4d44db;
+            --success: #28a745;
+            --info: #17a2b8;
+            --warning: #ffc107;
+            --danger: #dc3545;
+            --light: #f8f9fa;
+            --dark: #343a40;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary) !important;
+        }
+
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .stat-card {
+            border-left: 4px solid var(--primary);
+        }
+
+        .badge {
+            padding: 6px 10px;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .btn-outline-primary {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .table th {
+            border-top: none;
+            font-weight: 600;
+            color: #6c757d;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .status-in-progress {
+            background-color: #cce5ff;
+            color: #004085;
+        }
+
+        .status-delivered {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .user-greeting {
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .user-greeting:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-shipping-fast me-2"></i>AmanaExpress
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/nouveau"><i class="fas fa-plus-circle me-1"></i> Nouveau Colis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/suivi"><i class="fas fa-search-location me-1"></i> Suivi</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/contact"><i class="fas fa-headset me-1"></i> Support</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-danger" href="/logout"><i class="fas fa-sign-out-alt me-1"></i> Déconnexion</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <!-- Bouton Retour -->
+    <a href="/" class="btn btn-outline-primary mb-4">
+        <i class="fas fa-arrow-left me-2"></i> Retour à l'accueil
+    </a>
+
+    <!-- Message de succès -->
+    <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+        <i class="fas fa-check-circle me-2"></i>
+        <span th:text="${success}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- En-tête -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div class="user-greeting">
+            <h1 class="h3 mb-1">Bonjour, <span class="text-primary" th:text="${client.fullName}"></span></h1>
+            <p class="text-muted mb-0">
+                <i class="fas fa-calendar-day me-1"></i>
+                <span th:text="${#temporals.format(#temporals.createToday(), 'EEEE dd MMMM yyyy')}"></span>
+            </p>
+        </div>
+        <a href="/nouveau" class="btn btn-primary">
+            <i class="fas fa-plus me-2"></i> Nouveau Colis
+        </a>
+    </div>
+
+    <!-- Code de suivi -->
+    <div th:if="${dernierColis != null}" class="card mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="card-title mb-1">
+                        <i class="fas fa-box-open text-primary me-2"></i>
+                        Votre dernier colis
+                    </h5>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 me-3">
+                            <span class="fw-bold">N° suivi:</span>
+                            <span class="text-primary" th:text="${dernierColis.codeSuivi}"></span>
+                        </p>
+                        <span th:switch="${dernierColis.statut}" class="status-badge">
+                            <span th:case="EN_ATTENTE" class="status-pending">En attente</span>
+                            <span th:case="EN_COURS" class="status-in-progress">En cours</span>
+                            <span th:case="LIVRE" class="status-delivered">Livré</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-md-4 text-md-end mt-3 mt-md-0">
+                    <a th:href="@{/suivi/{code}(code=${dernierColis.codeSuivi})}" class="btn btn-sm btn-outline-primary">
+                        <i class="fas fa-eye me-1"></i> Suivre
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistiques -->
+    <div class="row mb-5">
+        <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card stat-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2">En attente</h6>
+                            <h3 class="mb-0" th:text="${enAttente != null ? enAttente.size() : 0}"></h3>
+                        </div>
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle">
+                            <i class="fas fa-clock text-primary fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3 mb-md-0">
+            <div class="card stat-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2">En cours</h6>
+                            <h3 class="mb-0" th:text="${enCours != null ? enCours.size() : 0}"></h3>
+                        </div>
+                        <div class="bg-info bg-opacity-10 p-3 rounded-circle">
+                            <i class="fas fa-truck text-info fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card stat-card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="text-uppercase text-muted mb-2">Livrés</h6>
+                            <h3 class="mb-0" th:text="${livres != null ? livres.size() : 0}"></h3>
+                        </div>
+                        <div class="bg-success bg-opacity-10 p-3 rounded-circle">
+                            <i class="fas fa-check-circle text-success fs-4"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Colis récents -->
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">
+                <i class="fas fa-boxes text-primary me-2"></i>
+                Vos colis récents
+            </h5>
+            <a href="/suivi" class="btn btn-sm btn-outline-primary">
+                Voir tout <i class="fas fa-arrow-right ms-1"></i>
+            </a>
+        </div>
+        <div class="card-body">
+            <div th:if="${colisRecents != null and !colisRecents.isEmpty()}">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Destinataire</th>
+                            <th>Adresse</th>
+                            <th>Poids</th>
+                            <th>Statut</th>
+                            <th class="text-end">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="colis : ${colisRecents}">
+                            <td th:text="${colis.id}"></td>
+                            <td th:text="${colis.destinataire}"></td>
+                            <td>
+                                <div class="text-truncate" style="max-width: 200px;" th:text="${colis.adresseLivraison}"></div>
+                            </td>
+                            <td th:text="${colis.poids} + ' kg'"></td>
+                            <td>
+                                    <span th:switch="${colis.statut}" class="status-badge">
+                                        <span th:case="EN_ATTENTE" class="status-pending">En attente</span>
+                                        <span th:case="EN_COURS" class="status-in-progress">En cours</span>
+                                        <span th:case="LIVRE" class="status-delivered">Livré</span>
+                                    </span>
+                            </td>
+                            <td class="text-end">
+                                <a th:href="@{/suivi/{code}(code=${colis.codeSuivi})}" class="btn btn-sm btn-outline-primary">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div th:if="${colisRecents == null or colisRecents.isEmpty()}" class="text-center py-5">
+                <i class="fas fa-box-open text-muted fs-1 mb-3"></i>
+                <h5 class="text-muted mb-3">Aucun colis récent</h5>
+                <a href="/nouveau" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i> Créer un colis
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script>
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
+
+        // S'abonner aux mises à jour d'un colis spécifique
+        stompClient.subscribe('/topic/status/${colis.codeSuivi}', function(message) {
+            const colis = JSON.parse(message.body);
+            updatePackageStatus(colis);
+        });
+
+        // S'abonner aux notifications générales
+        stompClient.subscribe('/topic/notifications', function(message) {
+            showNotification(message.body);
+        });
+    });
+
+    function updatePackageStatus(colis) {
+        // Mettre à jour l'interface utilisateur avec les nouvelles données
+        document.getElementById('status').innerText = colis.statut;
+        // ... autres mises à jour
+    }
+
+    function showNotification(message) {
+        // Afficher une notification à l'utilisateur
+        alert(message);
+    }
+
+    // Pour envoyer une demande de suivi
+    function trackPackage(code) {
+        stompClient.send("/app/track", {}, code);
+    }
+</script>
+</body>
+</html>

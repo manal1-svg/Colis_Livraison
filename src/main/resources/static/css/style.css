@@ -1,0 +1,225 @@
+/* Couleurs inspirées de Taiwan */
+:root {
+    --primary: #FE5F55; /* Rouge vif typique */
+    --secondary: #2D93AD; /* Bleu océan */
+    --accent: #FFC145; /* Jaune doré */
+    --light: #F7F7FF; /* Blanc cassé */
+    --dark: #2A2D34; /* Noir profond */
+    --success: #4CB944; /* Vert bambou */
+}
+
+/* Reset et base */
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background-color: var(--light);
+    color: var(--dark);
+    margin: 0;
+    padding: 0;
+    background-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M30,10 Q50,5 70,10 T90,30 Q95,50 90,70 T70,90 Q50,95 30,90 T10,70 Q5,50 10,30 T30,10" fill="none" stroke="%23FFC145" stroke-width="0.5" opacity="0.2"/></svg>');
+    background-size: 200px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* En-tête style lanterne */
+header {
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    padding: 1.5rem;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+header::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    filter: blur(10px);
+    opacity: 0.7;
+}
+
+h1 {
+    font-weight: 700;
+    margin: 0;
+    font-size: 2.2rem;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Formulaire style papier de riz */
+.tracking-form {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+    margin-top: 2rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    position: relative;
+}
+
+.tracking-form::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+    border-radius: 8px 8px 0 0;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--dark);
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background-color: rgba(255,255,255,0.8);
+}
+
+input[type="text"]:focus {
+    border-color: var(--secondary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(45, 147, 173, 0.2);
+}
+
+/* Bouton style sceau chinois */
+.btn {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(254, 95, 85, 0.3);
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #e04a42;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 10px rgba(254, 95, 85, 0.4);
+}
+
+/* Résultats style tableau traditionnel */
+.tracking-result {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    margin-top: 2rem;
+    box-shadow: 0 3px 20px rgba(0,0,0,0.08);
+    border-left: 5px solid var(--success);
+}
+
+.tracking-info {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+.tracking-info p {
+    margin: 0.8rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.tracking-info strong {
+    width: 120px;
+    display: inline-block;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+/* Exemples style timbres postaux */
+.examples {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.example-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-top: 3px solid var(--accent);
+    transition: transform 0.3s;
+}
+
+.example-item:hover {
+    transform: translateY(-5px);
+}
+
+.example-item a {
+    color: var(--dark);
+    text-decoration: none;
+    display: block;
+}
+
+.example-code {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.example-status {
+    color: var(--secondary);
+    font-size: 0.9rem;
+}
+
+/* Animation chargement style vague */
+@keyframes wave {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.loading-wave {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 2rem 0;
+}
+
+.loading-wave div {
+    width: 8px;
+    height: 30px;
+    background: var(--primary);
+    animation: wave 1s ease-in-out infinite;
+}
+
+.loading-wave div:nth-child(2) { animation-delay: 0.1s; }
+.loading-wave div:nth-child(3) { animation-delay: 0.2s; }
+.loading-wave div:nth-child(4) { animation-delay: 0.3s; }

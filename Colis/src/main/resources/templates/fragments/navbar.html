@@ -1,0 +1,28 @@
+<div th:fragment="navbar" xmlns:th="http://www.thymeleaf.org">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="/">Amana Express</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link" href="/">Accueil</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about">À propos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
+
+                    <!-- Lien admin seulement visible pour l'admin -->
+                    <li class="nav-item" th:if="${session.user != null && session.user.email == 'admin@amana.ma'}">
+                        <a class="nav-link" href="/admin/dashboard">Admin</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex">
+                    <span th:if="${session.user != null}" class="navbar-text me-3">
+                        Connecté en tant que <span th:text="${session.user.fullName}"></span>
+                    </span>
+                    <a th:if="${session.user == null}" href="/login" class="btn btn-outline-light me-2">Connexion</a>
+                    <a th:if="${session.user == null}" href="/register" class="btn btn-light">Inscription</a>
+                    <a th:if="${session.user != null}" href="/logout" class="btn btn-outline-light">Déconnexion</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>

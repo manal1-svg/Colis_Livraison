@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nouveau Colis - Amana Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .form-section {
+            background-color: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .prix-display {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .input-error {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<!-- Navbar -->
+<nav class="bg-blue-600 text-white py-4">
+    <div class="container mx-auto px-6 flex items-center justify-between">
+        <a href="/" class="text-xl font-bold">Amana Express</a>
+        <div class="hidden md:flex space-x-6">
+            <a href="/" class="hover:underline">Accueil</a>
+            <a href="/nouveau" class="font-semibold underline">Nouveau Colis</a>
+            <a href="/about" class="hover:underline">À propos</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenu principal -->
+<main class="container mx-auto px-6 py-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl md:text-3xl font-bold mb-6">Créer un nouvel envoi</h1>
+
+        <form th:action="@{/nouveau}" th:object="${colis}" method="post" class="space-y-6">
+            <!-- Section Expéditeur -->
+            <div class="form-section">
+                <h2 class="text-xl font-semibold mb-4 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                    Informations Expéditeur
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="expediteur" class="block text-sm font-medium text-gray-700 mb-1">Nom complet*</label>
+                        <input type="text" id="expediteur" th:field="*{expediteur}"
+                               pattern="^[A-Za-zÀ-ÿ\s]{2,50}$"
+                               title="Le nom doit contenir uniquement des lettres et espaces (2-50 caractères)"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                               oninput="filterNameInput(this)" onkeypress="return isLetterKey(event)"
+                               required>
+                        <small class="text-gray-500">Exemple: Mohamed Ali Benali</small>
+                    </div>
+                    <div>
+                        <label for="telephoneExpediteur" class="block text-sm font-medium text-gray-700 mb-1">Téléphone*</label>
+                        <input type="tel" id="telephoneExpediteur"
+                               pattern="^(\+212|0)[5-7][0-9]{8}$"
+                               title="Format accepté: +212XXXXXXXXX ou 0XXXXXXXXX (numéros marocains)"
+                               placeholder="+212612345678 ou 0612345678"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                               oninput="filterPhoneInput(this)" onkeypress="return isNumberKey(event)"
+                               required>
+                        <small class="text-gray-500">Format: +212XXXXXXXXX ou 0XXXXXXXXX</small>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="adresseExpediteur" class="block text-sm font-medium text-gray-700 mb-1">Adresse complète*</label>
+                    <textarea id="adresseExpediteur"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                              rows="2" required></textarea>
+                </div>
+            </div>
+
+            <!-- Section Destinataire -->
+            <div class="form-section">
+                <h2 class="text-xl font-semibold mb-4 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Informations Destinataire
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="destinataire" class="block text-sm font-medium text-gray-700 mb-1">Nom complet*</label>
+                        <input type="text" id="destinataire" th:field="*{destinataire}"
+                               pattern="^[A-Za-zÀ-ÿ\s]{2,50}$"
+                               title="Le nom doit contenir uniquement des lettres et espaces (2-50 caractères)"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                               oninput="filterNameInput(this)" onkeypress="return isLetterKey(event)"
+                               required>
+                        <small class="text-gray-500">Exemple: Fatima Zahra Alami</small>
+                    </div>
+                    <div>
+                        <label for="telephoneDestinataire" class="block text-sm font-medium text-gray-700 mb-1">Téléphone*</label>
+                        <input type="tel" id="telephoneDestinataire"
+                               pattern="^(\+212|0)[5-7][0-9]{8}$"
+                               title="Format accepté: +212XXXXXXXXX ou 0XXXXXXXXX (numéros marocains)"
+                               placeholder="+212612345678 ou 0612345678"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                               oninput="filterPhoneInput(this)" onkeypress="return isNumberKey(event)"
+                               required>
+                        <small class="text-gray-500">Format: +212XXXXXXXXX ou 0XXXXXXXXX</small>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <label for="adresseLivraison" class="block text-sm font-medium text-gray-700 mb-1">Adresse de livraison*</label>
+                    <textarea id="adresseLivraison" th:field="*{adresseLivraison}"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                              rows="2" required></textarea>
+                </div>
+            </div>
+
+            <!-- Section Colis -->
+            <div class="form-section">
+                <h2 class="text-xl font-semibold mb-4 text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                    </svg>
+                    Détails du Colis
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label for="poids" class="block text-sm font-medium text-gray-700 mb-1">Poids (kg)*</label>
+                        <input type="number" id="poids" th:field="*{poids}" step="0.1" min="0.1" max="25"
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                               oninput="calculerPrix()" required>
+                        <small class="text-gray-500">Tarif: 60 DH par kg</small>
+                    </div>
+                    <div>
+                        <label for="typeColis" class="block text-sm font-medium text-gray-700 mb-1">Type de colis</label>
+                        <select id="typeColis" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500">
+                            <option>Document</option>
+                            <option>Paquet</option>
+                            <option>Carton</option>
+                            <option>Autre</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="valeur" class="block text-sm font-medium text-gray-700 mb-1">Valeur déclarée (DH)*</label>
+                        <input type="number" id="valeur" min="0" readonly
+                               class="w-full px-4 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-700 cursor-not-allowed"
+                               placeholder="Calculé automatiquement">
+                        <small class="text-gray-500">Valeur = Poids × 60 DH/kg</small>
+                    </div>
+                </div>
+
+                <!-- Affichage du prix calculé -->
+                <div id="prixCalcule" class="prix-display" style="display: none;">
+                    <div class="flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
+                        </svg>
+                        <span>Prix basé sur le poids: <span id="prixPoids">0</span> DH</span>
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Description du contenu</label>
+                    <textarea id="description"
+                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                              rows="2"></textarea>
+                </div>
+            </div>
+
+            <!-- Options de livraison -->
+            <div class="form-section">
+                <h2 class="text-xl font-semibold mb-4 text-blue-600">Options de Livraison</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-colors">
+                        <input id="livraisonExpress" name="livraisonType" type="radio" value="express"
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500" onchange="calculerPrixTotal()">
+                        <label for="livraisonExpress" class="ml-3 block text-sm font-medium text-gray-700">
+                            <div class="font-semibold">Livraison Express (24h)</div>
+                            <div class="text-blue-600 font-bold">+ 120 DH</div>
+                        </label>
+                    </div>
+                    <div class="flex items-center p-3 bg-white rounded-lg border-2 border-blue-300 transition-colors">
+                        <input id="livraisonStandard" name="livraisonType" type="radio" value="standard" checked
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500" onchange="calculerPrixTotal()">
+                        <label for="livraisonStandard" class="ml-3 block text-sm font-medium text-gray-700">
+                            <div class="font-semibold">Livraison Standard (48-72h)</div>
+                            <div class="text-blue-600 font-bold">+ 60 DH</div>
+                        </label>
+                    </div>
+                    <div class="flex items-center p-3 bg-white rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-colors">
+                        <input id="pointRelais" name="livraisonType" type="radio" value="relais"
+                               class="h-4 w-4 text-blue-600 focus:ring-blue-500" onchange="calculerPrixTotal()">
+                        <label for="pointRelais" class="ml-3 block text-sm font-medium text-gray-700">
+                            <div class="font-semibold">Retrait en point relais</div>
+                            <div class="text-blue-600 font-bold">+ 40 DH</div>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Prix total -->
+                <div id="prixTotal" class="prix-display mt-4" style="display: none;">
+                    <div class="flex items-center justify-between">
+                        <span>PRIX TOTAL:</span>
+                        <span class="text-2xl"><span id="montantTotal">0</span> DH</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boutons de soumission -->
+            <div class="flex justify-end space-x-4">
+                <button type="reset" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50" onclick="resetPrix()">
+                    Annuler
+                </button>
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    Créer l'envoi
+                </button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-gray-800 text-white py-8 mt-12">
+    <div class="container mx-auto px-6 text-center">
+        <p class="text-sm">© 2023 Amana Express. Tous droits réservés.</p>
+    </div>
+</footer>
+
+<script>
+    function calculerPrix() {
+        const poids = parseFloat(document.getElementById('poids').value) || 0;
+        const prixParKg = 60;
+        const prixPoids = poids * prixParKg;
+
+        // Mettre à jour le prix basé sur le poids
+        document.getElementById('prixPoids').textContent = prixPoids.toFixed(0);
+
+        // Mettre à jour automatiquement la valeur déclarée
+        document.getElementById('valeur').value = prixPoids.toFixed(0);
+
+        if (poids > 0) {
+            document.getElementById('prixCalcule').style.display = 'block';
+        } else {
+            document.getElementById('prixCalcule').style.display = 'none';
+            document.getElementById('valeur').value = '';
+        }
+
+        calculerPrixTotal();
+    }
+
+    function calculerPrixTotal() {
+        const poids = parseFloat(document.getElementById('poids').value) || 0;
+        const prixParKg = 60;
+        const prixPoids = poids * prixParKg;
+
+        // Prix de livraison selon l'option choisie
+        let prixLivraison = 60; // Standard par défaut
+        const optionLivraison = document.querySelector('input[name="livraisonType"]:checked');
+
+        if (optionLivraison) {
+            switch(optionLivraison.value) {
+                case 'express':
+                    prixLivraison = 120;
+                    break;
+                case 'standard':
+                    prixLivraison = 60;
+                    break;
+                case 'relais':
+                    prixLivraison = 40;
+                    break;
+            }
+        }
+
+        const prixTotal = prixPoids + prixLivraison;
+        document.getElementById('montantTotal').textContent = prixTotal.toFixed(0);
+
+        if (poids > 0) {
+            document.getElementById('prixTotal').style.display = 'block';
+        } else {
+            document.getElementById('prixTotal').style.display = 'none';
+        }
+    }
+
+    function resetPrix() {
+        document.getElementById('prixCalcule').style.display = 'none';
+        document.getElementById('prixTotal').style.display = 'none';
+        document.getElementById('prixPoids').textContent = '0';
+        document.getElementById('montantTotal').textContent = '0';
+        document.getElementById('valeur').value = '';
+    }
+
+    // Fonction pour empêcher la saisie de lettres dans les champs téléphone
+    function isNumberKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        // Autoriser les chiffres (0-9), le signe + et la touche retour arrière
+        if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 43) {
+            return false;
+        }
+        return true;
+    }
+
+    // Fonction pour empêcher la saisie de chiffres dans les champs nom
+    function isLetterKey(evt) {
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        // Autoriser les lettres (a-z, A-Z), l'espace et les caractères accentués
+        if ((charCode > 64 && charCode < 91) ||
+            (charCode > 96 && charCode < 123) ||
+            charCode === 32 ||
+            charCode > 127) { // caractères accentués
+            return true;
+        }
+        return false;
+    }
+
+    // Filtrer les caractères non autorisés dans les téléphones
+    function filterPhoneInput(input) {
+        // Supprimer tous les caractères non numériques sauf le +
+        input.value = input.value.replace(/[^0-9+]/g, '');
+        validatePhone(input);
+    }
+
+    // Filtrer les caractères non autorisés dans les noms
+    function filterNameInput(input) {
+        // Supprimer tous les chiffres et caractères spéciaux sauf les lettres et espaces
+        input.value = input.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '');
+        validateName(input);
+    }
+
+    // Validation en temps réel pour les numéros de téléphone
+    document.getElementById('telephoneExpediteur').addEventListener('input', function() {
+        validatePhone(this);
+    });
+
+    document.getElementById('telephoneDestinataire').addEventListener('input', function() {
+        validatePhone(this);
+    });
+
+    function validatePhone(input) {
+        const pattern = /^(\+212|0)[5-7][0-9]{8}$/;
+        if (input.value && !pattern.test(input.value)) {
+            input.classList.add('input-error');
+        } else {
+            input.classList.remove('input-error');
+        }
+    }
+
+    // Validation pour les noms
+    document.getElementById('expediteur').addEventListener('input', function() {
+        validateName(this);
+    });
+
+    document.getElementById('destinataire').addEventListener('input', function() {
+        validateName(this);
+    });
+
+    function validateName(input) {
+        const pattern = /^[A-Za-zÀ-ÿ\s]{2,50}$/;
+        if (input.value && !pattern.test(input.value)) {
+            input.classList.add('input-error');
+        } else {
+            input.classList.remove('input-error');
+        }
+    }
+
+    // Calculer le prix initial au chargement de la page
+    document.addEventListener('DOMContentLoaded', function() {
+        calculerPrixTotal();
+    });
+    function selectRole(element, role) {
+        // Mise à jour de l'apparence
+        document.querySelectorAll('.role-option').forEach(opt => {
+            opt.classList.remove('selected');
+        });
+        element.classList.add('selected');
+
+        // Mise à jour du champ radio
+        document.querySelector(`input[value="${role}"]`).checked = true;
+
+        // Gestion des champs livreur
+        const livreurFields = document.getElementById('livreurFields');
+        if (role === 'LIVREUR') {
+            livreurFields.style.display = 'block';
+            // Rendre les champs obligatoires seulement pour les livreurs
+            livreurFields.querySelectorAll('input, select').forEach(field => {
+                field.required = true;
+            });
+        } else {
+            livreurFields.style.display = 'none';
+            // Enlever le required pour les clients
+            livreurFields.querySelectorAll('input, select').forEach(field => {
+                field.required = false;
+                field.value = ''; // Vider les champs
+            });
+        }
+    }
+
+    // Au chargement de la page, s'assurer que le bon rôle est sélectionné
+    document.addEventListener('DOMContentLoaded', function() {
+        const defaultRole = document.querySelector('input[name="role"]:checked').value;
+        if (defaultRole === 'LIVREUR') {
+            document.getElementById('livreurFields').style.display = 'block';
+        }
+    });
+</script>
+</body>
+</html>

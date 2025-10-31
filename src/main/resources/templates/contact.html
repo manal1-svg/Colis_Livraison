@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Amma Express</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        .floating-animation {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .contact-card {
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            box-shadow: 20px 20px 60px #d1d1d1, -20px -20px 60px #ffffff;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 25px 25px 75px #c5c5c5, -25px -25px 75px #ffffff;
+        }
+        .form-input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+        .btn-send {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        .btn-send:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .whatsapp-btn {
+            animation: pulse 2s infinite, bounce 2s infinite;
+            box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+<!-- Navbar -->
+<nav class="bg-white shadow-lg fixed w-full top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex items-center justify-between">
+        <a href="/" class="text-2xl font-bold text-gray-800">
+            <i class="fas fa-shipping-fast text-blue-600 mr-2"></i>
+            Amma<span class="text-blue-600">Express</span>
+        </a>
+        <div class="hidden md:flex space-x-8">
+            <a href="/" class="text-gray-700 hover:text-blue-600 transition duration-300">Accueil</a>
+            <a href="/nouveau" class="text-gray-700 hover:text-blue-600 transition duration-300">Nouveau Colis</a>
+            <a href="/about" class="text-gray-700 hover:text-blue-600 transition duration-300">À propos</a>
+            <a href="/contact" class="text-blue-600 font-semibold border-b-2 border-blue-600">Contact</a>
+        </div>
+        <div class="md:hidden">
+            <button id="mobile-menu-btn" class="text-gray-700">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<div class="hero-bg text-white pt-24 pb-20 overflow-hidden relative">
+    <div class="container mx-auto px-6 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="floating-animation mb-8">
+                <i class="fas fa-envelope text-6xl text-white opacity-20"></i>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                Contactez-nous <span class="text-yellow-300">facilement</span>
+            </h1>
+            <p class="text-xl text-purple-100 mb-8 max-w-2xl mx-auto">
+                Notre équipe d'experts est à votre disposition 24h/7j pour répondre à toutes vos questions et vous accompagner dans vos envois.
+            </p>
+            <div class="flex justify-center space-x-6">
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">24h/7j</div>
+                    <div class="text-sm">Support</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">&lt; 2h</div>
+                    <div class="text-sm">Réponse</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl font-bold text-yellow-300">100%</div>
+                    <div class="text-sm">Satisfaction</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Animated Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <div class="absolute top-10 left-10 w-20 h-20 bg-white opacity-10 rounded-full floating-animation"></div>
+        <div class="absolute top-32 right-20 w-16 h-16 bg-yellow-300 opacity-20 rounded-full floating-animation" style="animation-delay: -1s;"></div>
+        <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-white opacity-15 rounded-full floating-animation" style="animation-delay: -2s;"></div>
+    </div>
+</div>
+
+<!-- Contact Form Section -->
+<section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="container mx-auto px-6">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                    Envoyez-nous un <span class="gradient-text">message</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                    Remplissez le formulaire ci-dessous et recevez une réponse personnalisée dans les plus brefs délais.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+                <!-- Formulaire -->
+                <div class="bg-white rounded-2xl shadow-2xl p-8 contact-card">
+                    <form id="contactForm" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="firstName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-user text-blue-600 mr-2"></i>Prénom
+                                </label>
+                                <input type="text" id="firstName" name="firstName" required
+                                       class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300"
+                                       placeholder="Votre prénom">
+                            </div>
+                            <div>
+                                <label for="lastName" class="block text-sm font-semibold text-gray-700 mb-2">
+                                    <i class="fas fa-user text-blue-600 mr-2"></i>Nom
+                                </label>
+                                <input type="text" id="lastName" name="lastName" required
+                                       class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300"
+                                       placeholder="Votre nom">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label for="email" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-envelope text-blue-600 mr-2"></i>Adresse e-mail
+                            </label>
+                            <input type="email" id="email" name="email" required
+                                   class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300"
+                                   placeholder="votre.email@exemple.com">
+                        </div>
+
+                        <div>
+                            <label for="phone" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-phone text-blue-600 mr-2"></i>Téléphone (optionnel)
+                            </label>
+                            <input type="tel" id="phone" name="phone"
+                                   class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300"
+                                   placeholder="+212 6XX XXX XXX">
+                        </div>
+
+                        <div>
+                            <label for="subject" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-tag text-blue-600 mr-2"></i>Sujet
+                            </label>
+                            <select id="subject" name="subject" required
+                                    class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300">
+                                <option value="">Sélectionnez un sujet</option>
+                                <option value="nouveau-colis">Nouveau colis</option>
+                                <option value="suivi-colis">Suivi de colis</option>
+                                <option value="reclamation">Réclamation</option>
+                                <option value="tarifs">Informations sur les tarifs</option>
+                                <option value="partenariat">Partenariat</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="message" class="block text-sm font-semibold text-gray-700 mb-2">
+                                <i class="fas fa-comment-alt text-blue-600 mr-2"></i>Message
+                            </label>
+                            <textarea id="message" name="message" rows="5" required
+                                      class="form-input w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:border-blue-500 focus:outline-none transition duration-300 resize-none"
+                                      placeholder="Décrivez votre demande en détail..."></textarea>
+                        </div>
+
+                        <button type="submit" id="submitBtn"
+                                class="btn-send w-full text-white font-bold py-4 px-8 rounded-xl transition duration-300 flex items-center justify-center">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Envoyer le message
+                        </button>
+                    </form>
+
+                    <!-- Message de confirmation -->
+                    <div id="successMessage" class="hidden mt-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-xl">
+                        <i class="fas fa-check-circle mr-2"></i>
+                        Votre message a été envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.
+                    </div>
+
+                    <div id="errorMessage" class="hidden mt-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-xl">
+                        <i class="fas fa-exclamation-triangle mr-2"></i>
+                        Une erreur s'est produite. Veuillez réessayer ou nous contacter directement.
+                    </div>
+                </div>
+
+                <!-- Informations de contact -->
+                <div class="space-y-8">
+                    <div class="contact-card bg-white rounded-2xl p-8 shadow-xl">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-blue-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-phone text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Appelez-nous</h3>
+                                <p class="text-gray-600">Disponible 24h/7j</p>
+                            </div>
+                        </div>
+                        <a href="tel:0522987654" class="text-2xl font-bold text-blue-600 hover:text-blue-800 transition">
+                            0522 98 76 54
+                        </a>
+                    </div>
+
+                    <div class="contact-card bg-white rounded-2xl p-8 shadow-xl">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-green-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-envelope text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Email</h3>
+                                <p class="text-gray-600">Réponse sous 2h</p>
+                            </div>
+                        </div>
+                        <a href="mailto:mouhibamira2@gmail.com" class="text-lg font-semibold text-green-600 hover:text-green-800 transition">
+                            mouhibamira2@gmail.com
+                        </a>
+                    </div>
+
+                    <div class="contact-card bg-white rounded-2xl p-8 shadow-xl">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-purple-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-map-marker-alt text-purple-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Adresse</h3>
+                                <p class="text-gray-600">Siège social</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-700 font-medium">
+                            123 Avenue Hassan II<br>
+                            Casablanca, Maroc
+                        </p>
+                    </div>
+
+                    <div class="contact-card bg-white rounded-2xl p-8 shadow-xl">
+                        <div class="flex items-center mb-6">
+                            <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                                <i class="fas fa-clock text-yellow-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">Horaires</h3>
+                                <p class="text-gray-600">Service client</p>
+                            </div>
+                        </div>
+                        <div class="text-gray-700">
+                            <p><strong>Lun - Ven:</strong> 08h00 - 18h00</p>
+                            <p><strong>Sam:</strong> 09h00 - 16h00</p>
+                            <p><strong>Dim:</strong> 10h00 - 14h00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-20 bg-white">
+    <div class="container mx-auto px-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-800 mb-4">
+                    Questions <span class="gradient-text">fréquentes</span>
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Trouvez rapidement les réponses à vos questions les plus courantes.
+                </p>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-gray-50 rounded-xl p-6 contact-card">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleFaq(1)">
+                        <h3 class="text-lg font-semibold text-gray-800">Comment suivre mon colis ?</h3>
+                        <i class="fas fa-chevron-down text-blue-600" id="faq-icon-1"></i>
+                    </div>
+                    <div id="faq-content-1" class="hidden mt-4 text-gray-600">
+                        Vous pouvez suivre votre colis en temps réel sur notre site web en utilisant votre numéro de suivi, ou en nous contactant directement.
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 contact-card">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleFaq(2)">
+                        <h3 class="text-lg font-semibold text-gray-800">Quels sont vos délais de livraison ?</h3>
+                        <i class="fas fa-chevron-down text-blue-600" id="faq-icon-2"></i>
+                    </div>
+                    <div id="faq-content-2" class="hidden mt-4 text-gray-600">
+                        Nos délais varient selon la destination : 24h pour Casablanca, 48h pour les grandes villes, et 72h pour les zones rurales.
+                    </div>
+                </div>
+
+                <div class="bg-gray-50 rounded-xl p-6 contact-card">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleFaq(3)">
+                        <h3 class="text-lg font-semibold text-gray-800">Comment calculer le prix d'un envoi ?</h3>
+                        <i class="fas fa-chevron-down text-blue-600" id="faq-icon-3"></i>
+                    </div>
+                    <div id="faq-content-3" class="hidden mt-4 text-gray-600">
+                        Le prix dépend du poids, des dimensions et de la destination. Utilisez notre calculateur en ligne ou contactez-nous pour un devis personnalisé.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-gray-900 text-white pt-16 pb-8">
+    <div class="container mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center space-x-2 mb-4">
+                    <i class="fas fa-shipping-fast text-3xl text-blue-400"></i>
+                    <span class="text-2xl font-bold">Amana<span class="text-blue-400">Express</span></span>
+                </div>
+                <p class="text-gray-400 mb-6">
+                    Leader dans la livraison de colis au Maroc, nous nous engageons à offrir un service rapide et fiable.
+                </p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Services</h3>
+                <ul class="space-y-2">
+                    <li><a href="/nouveau" class="text-gray-400 hover:text-white transition">Envoi de colis</a></li>
+                    <li><a href="/suivi" class="text-gray-400 hover:text-white transition">Suivi en ligne</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Livraison express</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Points relais</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Entreprise</h3>
+                <ul class="space-y-2">
+                    <li><a href="/about" class="text-gray-400 hover:text-white transition">À propos</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Carrières</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Presse</a></li>
+                    <li><a href="#" class="text-gray-400 hover:text-white transition">Blog</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-semibold mb-4">Contact</h3>
+                <ul class="space-y-2">
+                    <li class="flex items-center">
+                        <i class="fas fa-phone mr-2"></i>
+                        <span class="text-gray-400">0522 98 76 54</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope mr-2"></i>
+                        <span class="text-gray-400">mouhibamira2@gmail.com</span>
+                    </li>
+                    <li class="flex items-start">
+                        <i class="fas fa-map-marker-alt mr-2 mt-1"></i>
+                        <span class="text-gray-400">123 Avenue Hassan II, Casablanca</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                © 2024 AmmaExpress. Tous droits réservés.
+            </p>
+            <p class="text-gray-400 text-sm">
+                Développé avec ❤️ pour un service d'excellence
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bouton WhatsApp flottant -->
+<div class="fixed bottom-8 right-8 z-50">
+    <a href="https://wa.me/212636930680"
+       target="_blank"
+       class="whatsapp-btn bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg flex items-center justify-center transition-all duration-300"
+       style="width: 60px; height: 60px;">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </a>
+</div>
+
+<!-- EmailJS SDK -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/emailjs-com/3.2.0/email.min.js"></script>
+
+<script>
+
+    emailjs.init('I7kksA3_kZD7GFFEo');
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Animation du bouton
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Envoi en cours...';
+        submitBtn.disabled = true;
+
+        // Récupération des données
+        const formData = {
+            from_name: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value,
+            from_email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value || 'Non fourni',
+            subject: document.getElementById('subject').value,
+            message: document.getElementById('message').value,
+            to_email: 'mouhibamira2@gmail.com'
+        };
+
+
+        emailjs.send('service_nlf04ru', 'template_2dv3i6a', formData)
+            .then(function() {
+                successMessage.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+                document.getElementById('contactForm').reset();
+            }, function(error) {
+                console.error('Erreur:', error);
+                errorMessage.classList.remove('hidden');
+                successMessage.classList.add('hidden');
+            })
+            .finally(() => {
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane mr-2"></i>Envoyer le message';
+                submitBtn.disabled = false;
+            });
+    });
+
+    // Gestion FAQ
+    function toggleFaq(id) {
+        const content = document.getElementById(`faq-content-${id}`);
+        const icon = document.getElementById(`faq-icon-${id}`);
+
+        if (content.classList.contains('hidden')) {
+            content.classList.remove('hidden');
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        } else {
+            content.classList.add('hidden');
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        }
+    }
+
+    // Menu mobile
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        // Implémentation du menu mobile
+        console.log('Menu mobile cliqué');
+    });
+
+    // Animation au scroll
+    window.addEventListener('scroll', function() {
+        const navbar = document.querySelector('nav');
+        if (window.scrollY > 100) {
+            navbar.classList.add('shadow-xl');
+        } else {
+            navbar.classList.remove('shadow-xl');
+        }
+    });
+</script>
+</body>
+</html>

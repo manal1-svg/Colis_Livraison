@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails Utilisateur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Détails de l'utilisateur</h1>
+        <a href="/admin/users" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Retour
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Informations personnelles</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">Nom complet</dt>
+                        <dd class="col-sm-8" th:text="${user.fullName}"></dd>
+
+                        <dt class="col-sm-4">Email</dt>
+                        <dd class="col-sm-8" th:text="${user.email}"></dd>
+
+                        <dt class="col-sm-4">Rôle</dt>
+                        <dd class="col-sm-8">
+                            <span th:classappend="'badge bg-' +
+                                (${user.role == 'ADMIN'} ? 'primary' :
+                                ${user.role == 'LIVREUR'} ? 'warning' : 'secondary')"
+                                  th:text="${user.role}"></span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <h5>Activité</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">Date inscription</dt>
+                        <dd class="col-sm-8" th:text="${#temporals.format(user.dateCreation, 'dd/MM/yyyy')}"></dd>
+
+                        <dt class="col-sm-4">Dernière connexion</dt>
+                        <dd class="col-sm-8" th:text="${user.lastLogin ? #temporals.format(user.lastLogin, 'dd/MM/yyyy HH:mm') : 'Jamais'}"></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div th:if="${user.role == 'LIVREUR'}" class="mt-4">
+                <h5>Colis assignés</h5>
+                <div th:if="${colisAssignes.empty}" class="alert alert-info">
+                    Aucun colis assigné à ce livreur.
+                </div>
+                <div th:unless="${colisAssignes.empty}" class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Destinataire</th>
+                            <th>Statut</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="colis : ${colisAssignes}">
+                            <td th:text="${colis.codeSuivi}"></td>
+                            <td th:text="${colis.destinataire}"></td>
+                            <td th:text="${colis.statut.label}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

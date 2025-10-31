@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Détails du Colis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Détails du Colis <span th:text="${colis.codeSuivi}"></span></h1>
+        <a href="/admin/colis" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Retour
+        </a>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5>Informations de base</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">Expéditeur</dt>
+                        <dd class="col-sm-8" th:text="${colis.expediteur}"></dd>
+
+                        <dt class="col-sm-4">Destinataire</dt>
+                        <dd class="col-sm-8" th:text="${colis.destinataire}"></dd>
+
+                        <dt class="col-sm-4">Poids</dt>
+                        <dd class="col-sm-8" th:text="${colis.poids} + ' kg'"></dd>
+                    </dl>
+                </div>
+                <div class="col-md-6">
+                    <h5>Statut et livraison</h5>
+                    <dl class="row">
+                        <dt class="col-sm-4">Statut</dt>
+                        <dd class="col-sm-8">
+                            <span th:classappend="'badge status-' + ${colis.statut.name().toLowerCase()}"
+                                  th:text="${colis.statut.label}"></span>
+                        </dd>
+
+                        <dt class="col-sm-4">Date création</dt>
+                        <dd class="col-sm-8" th:text="${#temporals.format(colis.dateCreation, 'dd/MM/yyyy HH:mm')}"></dd>
+
+                        <dt class="col-sm-4">Dernière mise à jour</dt>
+                        <dd class="col-sm-8" th:text="${#temporals.format(colis.dateMaj, 'dd/MM/yyyy HH:mm')}"></dd>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Adresse de livraison</h5>
+                <div class="p-3 bg-light rounded" th:text="${colis.adresseLivraison}"></div>
+            </div>
+
+            <div class="mb-4">
+                <h5>Historique des statuts</h5>
+                <div class="timeline">
+                    <div class="timeline-item" th:each="histo : ${historiqueStatuts}">
+                        <div class="timeline-point"></div>
+                        <div class="timeline-content">
+                            <div class="d-flex justify-content-between">
+                                <strong th:text="${histo.statut.label}"></strong>
+                                <small th:text="${#temporals.format(histo.dateChangement, 'dd/MM/yyyy HH:mm')}"></small>
+                            </div>
+                            <div th:if="${histo.commentaire}" th:text="${histo.commentaire}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historique des Colis | Amana Express</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" href="/">Amana Express</a>
+        <div class="d-flex">
+            <a th:href="@{/client/dashboard}" class="btn btn-outline-light me-2">
+                <i class="fas fa-arrow-left me-1"></i> Retour
+            </a>
+            <a href="/logout" class="btn btn-outline-light">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2><i class="fas fa-history me-2"></i> Historique des colis</h2>
+        </div>
+        <div class="col-md-6 text-end">
+            <form class="d-flex">
+                <input type="text" class="form-control me-2" placeholder="Rechercher un colis...">
+                <button class="btn btn-outline-primary" type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Destinataire</th>
+                        <th>Date</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="colis : ${colisList}">
+                        <td th:text="${colis.codeSuivi}"></td>
+                        <td th:text="${colis.destinataire}"></td>
+                        <td th:text="${#temporals.format(colis.dateCreation, 'dd/MM/yyyy')}"></td>
+                        <td>
+                                    <span class="badge"
+                                          th:classappend="${colis.statut == T(com.example.colis.entity.StatutColis).ENREGISTRE} ? 'bg-primary' :
+                                          ${colis.statut == T(com.example.colis.entity.StatutColis).EN_TRANSIT} ? 'bg-warning' :
+                                          ${colis.statut == T(com.example.colis.entity.StatutColis).EN_LIVRAISON} ? 'bg-info' :
+                                          'bg-success'"
+                                          th:text="${colis.statut}"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{/suivi/{code}(code=${colis.codeSuivi})}"
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="fas fa-eye"></i> Détails
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
