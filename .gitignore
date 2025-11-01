@@ -1,10 +1,28 @@
-HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+==============================================================================
 
-### STS ###
+FICHIER .GITIGNORE CONSOLIDÉ POUR PROJET FULL-STACK (SPRING BOOT + ANGULAR/PYTHON)
+
+==============================================================================
+
+--- JAVA / MAVEN / GRADLE ---
+
+Dossiers de compilation Maven/Gradle
+
+target/
+build/
+!.mvn/wrapper/maven-wrapper.jar
+!/src/main//target/
+!/src/test//target/
+!/src/main//build/
+!/src/test//build/
+*.jar
+*.war
+*.class
+
+--- IDEs / CONFIGURATION ---
+
+STS (Eclipse)
+
 .apt_generated
 .classpath
 .factorypath
@@ -13,21 +31,57 @@ target/
 .springBeans
 .sts4-cache
 
-### IntelliJ IDEA ###
+IntelliJ IDEA
+
 .idea
 *.iws
 *.iml
 *.ipr
 
-### NetBeans ###
+NetBeans
+
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+VS Code
+
 .vscode/
+.DS_Store
+
+--- DEPENDANCES FRONT-END (ANGULAR) ---
+
+Dépendances Node.js (ne jamais les commiter !)
+
+/node_modules
+
+Fichiers de compilation Angular
+
+/dist
+/coverage
+package-lock.json
+
+--- ENVIRONNEMENTS PYTHON/JUPYTER (RÈGLES CRITIQUES) ---
+
+Ceci est crucial pour retirer les 94% de Python
+
+(Vos compétences incluent Python/Jupyter/Folium pour les cartes)
+
+Environnements virtuels
+
+.venv/
+venv/
+env/
+
+Fichiers de cache Python
+
+pycache/
+*.pyc
+
+Fichiers de session Jupyter ou d'outils Data Science
+
+.ipynb_checkpoints
+*.log
+*.tmp
