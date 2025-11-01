@@ -3,7 +3,7 @@ package com.example.colis.config;
 import com.example.colis.entity.User;
 import com.example.colis.service.UserService;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest; 
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
